@@ -1,0 +1,73 @@
+---
+title: "DMG2-gc"
+author: "Sheetal"
+date: "9/8/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library("Matrix")
+library("arules")
+library("igraph")
+library("arulesViz")
+
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+BB <-read.csv("Final.csv")
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+#BB[,1:222]
+BB_member=subset(BB,BB$Member %in% c('M04158' ,'M08075' ) )
+BB_member
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+```{r}
+ncol(BB)
+rules = apriori(as.matrix(BB_member[,3:222]), parameter=list(support=0.05, confidence=0.5,minlen=1)) ## the first column in mydata has transaction id
+
+
+```
+
+```{r}
+inspect(rules)
+```
+
+```{r}
+x<-read.csv("POS DATA-Table 1.csv")
+```
+
+```{r}
+x_member=subset(x,x$Member %in% c('M04158' ) )
+```
+
+```{r}
+#x[1:5]
+
+AirlineNW <- graph.edgelist(as.matrix(x_member[,c(1,5)]), directed=TRUE)
+```
+
+```{r}
+indegree <- degree(AirlineNW,mode="in")
+max(indegree)
+index <- which(indegree == max(indegree))
+str(indegree)
+ list(AirlineNW.indegree([0,1]).values())
+```
+
+```{r}
+
+```
+
